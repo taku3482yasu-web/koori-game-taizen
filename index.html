@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>こおりくんのゲーム大全</title>
+<meta name="description" content="こおりくんシリーズの ゲームを ぜんぶ ここから あそべる">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' shape-rendering='crispEdges'%3E%3Crect width='14' height='12' fill='%231b3566'/%3E%3Crect x='1' y='1' width='12' height='10' fill='%23c6f0ff'/%3E%3Crect x='4' y='4' width='1' height='2' fill='%230e1626'/%3E%3Crect x='9' y='4' width='1' height='2' fill='%230e1626'/%3E%3Crect x='6' y='7' width='2' height='1' fill='%230e1626'/%3E%3Crect x='2' y='12' width='3' height='2' fill='%231b3566'/%3E%3Crect x='9' y='12' width='3' height='2' fill='%231b3566'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0b1222;
+    --bg2: #13203a;
+    --ink: #eef6ff;
+    --sub: #9fb3cf;
+    --ice: #8fdcff;
+    --gold: #ffd75e;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+    margin: 0; min-height: 100vh; color: var(--ink);
+    font-family: 'M PLUS Rounded 1c', system-ui, sans-serif; font-weight: 500;
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, #234a80 0%, transparent 70%),
+        radial-gradient(circle at 15% 80%, #1b2e55 0%, transparent 40%),
+        var(--bg);
+    overflow-x: hidden;
+}
+/* ふる ゆき */
+.snow { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.snow i { position: absolute; top: -10px; width: 4px; height: 4px; background: #fff; opacity: 0.6; animation: fall linear infinite; }
+@keyframes fall { to { transform: translate(var(--dx), 105vh); } }
+
+header { position: relative; z-index: 1; text-align: center; padding: 48px 16px 12px; }
+.logo { display: inline-flex; align-items: center; gap: 14px; }
+.logo svg { width: 64px; height: 64px; animation: hop 2.4s ease-in-out infinite; }
+@keyframes hop { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-10px); } 90% { transform: translateY(0); } }
+h1 {
+    margin: 0; font-family: 'DotGothic16', monospace; font-weight: 400;
+    font-size: clamp(30px, 7vw, 56px); letter-spacing: 0.06em; line-height: 1.1;
+    background: linear-gradient(180deg, #ffffff 0%, var(--ice) 60%, #4aa8e8 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 3px 0 #1b3566) drop-shadow(0 0 18px rgba(143, 220, 255, 0.35));
+}
+h1 small { display: block; font-size: 0.32em; letter-spacing: 0.3em; color: var(--gold); -webkit-text-fill-color: var(--gold); }
+.lead { margin: 14px 0 0; color: var(--sub); font-size: 14px; }
+
+main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+.shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 36px 28px; }
+
+/* ---------- パッケージ ---------- */
+.game { display: flex; flex-direction: column; align-items: center; gap: 12px; perspective: 900px; }
+.box {
+    position: relative; display: block; width: 100%; max-width: 250px; aspect-ratio: 3 / 4;
+    border: 0; padding: 0; background: none; cursor: pointer; color: inherit; font: inherit;
+    transform-style: preserve-3d; transform: rotateY(-14deg) rotateX(3deg);
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1.2);
+}
+.box:hover, .box:focus-visible { transform: rotateY(-4deg) rotateX(0) translateY(-8px) scale(1.03); outline: none; }
+.box:focus-visible .cover { box-shadow: 0 0 0 3px var(--gold), 0 20px 40px rgba(0,0,0,0.5); }
+.spine {
+    position: absolute; top: 0; left: 0; width: 22px; height: 100%;
+    transform-origin: left; transform: rotateY(90deg);
+    background: var(--c2); display: flex; align-items: center; justify-content: center;
+    writing-mode: vertical-rl; font-size: 10px; letter-spacing: 0.1em; color: #fff; filter: brightness(0.7);
+}
+.cover {
+    position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden;
+    border-radius: 4px 10px 10px 4px;
+    background: linear-gradient(160deg, var(--c1) 0%, var(--c2) 100%);
+    box-shadow: inset 6px 0 0 rgba(0,0,0,0.25), inset -1px 0 0 rgba(255,255,255,0.15), 0 18px 30px rgba(0,0,0,0.45);
+}
+.cover::after { /* てかり */
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.18) 45%, transparent 60%);
+    transform: translateX(-100%); transition: transform 0.6s;
+}
+.box:hover .cover::after { transform: translateX(100%); }
+.band {
+    display: flex; justify-content: space-between; align-items: center; padding: 6px 10px 6px 14px;
+    background: rgba(0,0,0,0.35); font-size: 10px; letter-spacing: 0.08em;
+}
+.band b { white-space: nowrap; padding: 1px 7px; border-radius: 999px; background: var(--gold); color: #3a2a00; font-size: 10px; }
+.art { flex: 1; display: flex; align-items: center; justify-content: center; padding: 4px 10px 0 14px; }
+.art svg { width: 100%; height: 100%; max-height: 190px; }
+.titlebox { padding: 6px 10px 12px 16px; text-align: left; }
+.series { display: block; font-size: 10px; color: rgba(255,255,255,0.75); letter-spacing: 0.05em; }
+.name {
+    display: block; font-family: 'DotGothic16', monospace; font-size: 21px; line-height: 1.2; color: #fff;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.5), 0 0 10px var(--glow);
+}
+.name small { display: block; font-size: 13px; color: var(--gold); text-shadow: 0 1px 0 rgba(0,0,0,0.6); }
+
+.desc { width: 100%; max-width: 250px; margin: 0; font-size: 13px; color: var(--sub); line-height: 1.6; }
+.play {
+    width: 100%; max-width: 250px; padding: 10px; border: 0; border-radius: 10px; cursor: pointer;
+    background: var(--c2); color: #fff; font: inherit; font-weight: 800; font-size: 15px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.35); transition: transform 0.1s;
+}
+.play:hover { filter: brightness(1.15); }
+.play:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.35); }
+
+/* ---------- きどう ---------- */
+.launch {
+    position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+    background: #050a14; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.launch.on { opacity: 1; pointer-events: auto; }
+.launch .boot { font-family: 'DotGothic16', monospace; font-size: clamp(20px, 5vw, 32px); text-align: center; padding: 0 16px; }
+.launch .boot small { display: block; margin-top: 8px; font-size: 14px; color: var(--sub); }
+.launch .bar { width: min(280px, 70vw); height: 10px; border: 2px solid var(--ice); padding: 2px; }
+.launch .bar i { display: block; height: 100%; width: 0; background: var(--ice); }
+.launch.on .bar i { animation: load 1.1s steps(12) forwards; }
+@keyframes load { to { width: 100%; } }
+.launch svg { width: 84px; height: 84px; animation: hop 0.6s ease-in-out infinite; }
+.box.opening { transform: rotateY(0) scale(1.1); }
+
+footer { position: relative; z-index: 1; text-align: center; padding: 0 16px 32px; color: #5c6f8c; font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .snow, .logo svg, .launch svg { animation: none; display: revert; }
+    .snow { display: none; }
+    .box { transform: none; transition: none; }
+}
+@media (max-width: 520px) {
+    header { padding-top: 32px; }
+    .logo { gap: 8px; }
+    .logo svg { width: 44px; height: 44px; }
+    .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
+    .box { transform: none; }
+    .name { font-size: 15px; }
+    .name small { font-size: 11px; }
+    .band { font-size: 9px; padding-left: 10px; }
+    .band .kk { display: none; }
+    .art svg { max-height: 120px; }
+    .titlebox { padding: 4px 8px 10px 12px; }
+    .desc { font-size: 12px; }
+    .play { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<div class="snow" aria-hidden="true"></div>
+
+<!-- こおりくん (前作の ドット絵と 同じ 形) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="koori" viewBox="0 0 14 14" shape-rendering="crispEdges">
+        <rect width="14" height="12" fill="#1b3566"/>
+        <rect x="1" y="1" width="12" height="10" fill="#c6f0ff"/>
+        <rect x="11" y="1" width="2" height="4" fill="#7fd3f5"/>
+        <rect x="12" y="5" width="1" height="4" fill="#7fd3f5"/>
+        <rect x="1" y="10" width="12" height="1" fill="#7fd3f5"/>
+        <rect x="1" y="9" width="1" height="1" fill="#7fd3f5"/>
+        <rect x="12" y="9" width="1" height="2" fill="#4fb0e6"/>
+        <rect x="1" y="1" width="3" height="1" fill="#fff"/>
+        <rect x="1" y="2" width="2" height="1" fill="#fff"/>
+        <rect x="1" y="3" width="1" height="1" fill="#fff"/>
+        <rect x="4" y="4" width="1" height="2" fill="#0e1626"/>
+        <rect x="9" y="4" width="1" height="2" fill="#0e1626"/>
+        <rect x="2" y="6" width="1" height="1" fill="#f59bb0"/>
+        <rect x="11" y="6" width="1" height="1" fill="#f59bb0"/>
+        <rect x="6" y="7" width="2" height="1" fill="#0e1626"/>
+        <rect x="2" y="12" width="3" height="2" fill="#1b3566"/>
+        <rect x="9" y="12" width="3" height="2" fill="#1b3566"/>
+        <rect x="3" y="12" width="1" height="1" fill="#4fb0e6"/>
+        <rect x="10" y="12" width="1" height="1" fill="#4fb0e6"/>
+    </symbol>
+</svg>
+
+<header>
+    <div class="logo">
+        <svg viewBox="0 0 14 14" aria-hidden="true"><use href="#koori"/></svg>
+        <h1><small>KOORI-KUN GAME COLLECTION</small>こおりくんの<br>ゲーム大全</h1>
+    </div>
+    <p class="lead">パッケージを えらんで クリック！ ゲームが きどうするよ</p>
+</header>
+
+<main>
+    <section class="shelf" id="shelf"></section>
+</main>
+
+<footer>こおりくんの ゲーム大全 ・ ぜんぶ ブラウザで あそべます</footer>
+
+<div class="launch" id="launch" aria-live="polite">
+    <svg viewBox="0 0 14 14" aria-hidden="true"><use href="#koori"/></svg>
+    <div class="boot" id="bootText"></div>
+    <div class="bar"><i></i></div>
+</div>
+
+<script>
+// ゲームの 一覧 (出た じゅん)。url を かえれば とび先が かわる
+const GAMES = [
+    {
+        id: 'slot1', no: '01', genre: 'スロット', series: 'こおりくんの大冒険',
+        name: 'CRこおりくんの大冒険', sub: '～おにおにの野望～',
+        desc: 'シリーズの はじまり。おにおにの 野望を そろえた 7 で うちくだけ！',
+        url: 'https://taku3482yasu-web.github.io/cr-kohori-slot/',
+        c1: '#d6344a', c2: '#5a0f22', glow: '#ff5a6e', art: 'slot'
+    },
+    {
+        id: 'pachinko', no: '02', genre: 'パチンコ', series: 'Pこおりくん',
+        name: 'Pこおりくん', sub: '～内定ツラヌキ物語～',
+        desc: '物理演算の 盤面で 玉が はねる！ 1 種 2 種 混合の パチンコ。',
+        url: 'https://taku3482yasu-web.github.io/cr-kohori-pachinko/',
+        c1: '#c84bd8', c2: '#3a0f5c', glow: '#ff8cf5', art: 'pachinko'
+    },
+    {
+        id: 'aso', no: '03', genre: 'スロット AT', series: 'こおりくんの大冒険',
+        name: '最凶のASO摩天楼への挑戦', sub: 'スロット 第 2 弾',
+        desc: 'ゲーム数 上乗せ型の AT 機。そびえ立つ ASO 摩天楼を のぼりつめろ！',
+        url: 'https://koori-slot-production.up.railway.app/',
+        c1: '#f08a24', c2: '#2a1240', glow: '#ffb347', art: 'aso'
+    },
+    {
+        id: 'dungeon', no: '04', genre: 'ダンジョン', series: 'こおりくんの大冒険',
+        name: 'ダンジョンドタバタ大道中', sub: 'ローグライク RPG',
+        desc: 'もぐる たびに かわる ダンジョン。なかまと いっしょに 下の 階へ！',
+        url: 'https://taku3482yasu-web.github.io/koori-dungeon/',
+        c1: '#8a6a44', c2: '#2b2117', glow: '#ffb35c', art: 'dungeon'
+    },
+    {
+        id: 'rpg', no: '05', genre: 'RPG', series: 'こおりくんの大冒険',
+        name: '大集合だヨ！おともだち！', sub: 'シリーズの 集大成',
+        desc: 'おなかまウォッチで おともだちを あつめる RPG。町も 学校も ドタバタ！',
+        url: 'https://taku3482yasu-web.github.io/koori-rpg/',
+        c1: '#2fb37a', c2: '#0f3d4a', glow: '#7dffc0', art: 'rpg'
+    },
+    {
+        id: 'card', no: '06', genre: 'カードゲーム', series: 'こおりくんの大冒険',
+        name: 'こおりくん カードゲーム', sub: '（仮）',
+        desc: 'シリーズの キャラが カードに なった！ CPU と たいせんしよう。',
+        url: 'https://taku3482yasu-web.github.io/koori-card/',
+        c1: '#3d6fd6', c2: '#151d4a', glow: '#8fdcff', art: 'card'
+    }
+];
+
+// パッケージの 絵 (どれも まんなかに こおりくん)
+const K = (x, y, s) => `<use href="#koori" x="${x}" y="${y}" width="${s}" height="${s}"/>`;
+const ART = {
+    slot: () => `
+        <rect x="10" y="22" width="100" height="52" rx="6" fill="#2a0710" stroke="#ffd75e" stroke-width="3"/>
+        ${[0, 1, 2].map((i) => `<rect x="${17 + i * 31}" y="28" width="26" height="40" rx="3" fill="#fff6e0"/>
+        <text x="${30 + i * 31}" y="58" text-anchor="middle" font-family="DotGothic16, monospace" font-size="28" fill="#d6344a" stroke="#5a0f22" stroke-width="1">7</text>`).join('')}
+        <path d="M10 14 l8 -10 l4 10 z M110 14 l-8 -10 l-4 10 z" fill="#ffd75e"/>
+        ${K(44, 70, 30)}`,
+    pachinko: () => `
+        ${Array.from({ length: 30 }, (_, i) => `<circle cx="${12 + (i % 10) * 10.5 + (Math.floor(i / 10) % 2) * 5}" cy="${10 + Math.floor(i / 10) * 9}" r="1.4" fill="#ffd75e"/>`).join('')}
+        <circle cx="60" cy="62" r="30" fill="#2a0a44" stroke="#ff8cf5" stroke-width="3"/>
+        ${K(43, 44, 34)}
+        ${[[22, 50, 5], [98, 44, 6], [30, 86, 4], [92, 82, 5], [76, 20, 4]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="url(#ball)"/>`).join('')}
+        <defs><radialGradient id="ball" cx="35%" cy="35%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#8a92a6"/></radialGradient></defs>`,
+    aso: () => `
+        <rect x="8" y="40" width="22" height="60" fill="#1a0b2a"/>
+        <rect x="88" y="30" width="24" height="70" fill="#1a0b2a"/>
+        <rect x="40" y="4" width="40" height="96" fill="#12061f" stroke="#ffb347" stroke-width="2"/>
+        <path d="M40 4 L60 -8 L80 4 z" fill="#ffb347"/>
+        ${Array.from({ length: 24 }, (_, i) => `<rect x="${45 + (i % 4) * 8.5}" y="${12 + Math.floor(i / 4) * 12}" width="5" height="6" fill="${(i * 7) % 5 ? '#ffd75e' : '#5c3a1a'}"/>`).join('')}
+        <path d="M100 6 l-8 14 h6 l-6 14" stroke="#ffd75e" stroke-width="3" fill="none"/>
+        ${K(14, 66, 28)}`,
+    dungeon: () => `
+        <rect x="0" y="0" width="120" height="100" fill="#1c150e"/>
+        ${Array.from({ length: 12 }, (_, i) => `<rect x="${(i % 4) * 30 + (Math.floor(i / 4) % 2) * 15 - 8}" y="${Math.floor(i / 4) * 16}" width="28" height="14" fill="#3a2d1f" stroke="#120d08"/>`).join('')}
+        <rect x="0" y="48" width="120" height="52" fill="#2b2117"/>
+        <path d="M70 92 h44 v-8 h-36 v-8 h28 v-8 h-20 z" fill="#8a7a66" stroke="#4a3e30"/>
+        ${[16, 104].map((x) => `<rect x="${x - 2}" y="22" width="4" height="14" fill="#6b4a2a"/><path d="M${x} 10 q6 8 0 12 q-6 -4 0 -12" fill="#ffb35c"/>`).join('')}
+        ${K(22, 50, 38)}`,
+    rpg: () => `
+        <circle cx="60" cy="50" r="40" fill="none" stroke="#7dffc0" stroke-width="3" stroke-dasharray="6 4"/>
+        <circle cx="60" cy="50" r="30" fill="#0f3d4a"/>
+        ${[[18, 30, '#ff8a8a'], [90, 24, '#ffd75e'], [12, 74, '#c89bff'], [96, 70, '#8fdcff']].map(([x, y, c]) => `
+            <g transform="translate(${x} ${y})"><circle r="9" fill="${c}"/><rect x="-4" y="-2" width="2" height="3" fill="#0e1626"/><rect x="2" y="-2" width="2" height="3" fill="#0e1626"/><rect x="-2" y="3" width="4" height="1.5" fill="#0e1626"/></g>`).join('')}
+        ${K(42, 32, 36)}
+        <text x="60" y="96" text-anchor="middle" font-family="DotGothic16, monospace" font-size="9" fill="#7dffc0">♪ おともだち ♪</text>`,
+    card: () => `
+        ${[['#7a4bd6', '#c9a6ff', -18, 30], ['#2f8a4a', '#a6e6a0', 18, 90], ['#151d4a', '#8fdcff', 0, 60]].map(([b, e, r, x]) => `
+            <g transform="rotate(${r} ${x} 90)"><rect x="${x - 22}" y="18" width="44" height="62" rx="4" fill="${b}" stroke="${e}" stroke-width="2.5"/>
+            <circle cx="${x - 15}" cy="25" r="4" fill="#ffd75e"/></g>`).join('')}
+        ${K(47, 38, 26)}
+        <rect x="44" y="68" width="32" height="7" rx="2" fill="#eef6ff"/>
+        <text x="60" y="74" text-anchor="middle" font-family="DotGothic16, monospace" font-size="6" fill="#151d4a">⚡ ドタバタ</text>`
+};
+
+const shelf = document.getElementById('shelf');
+shelf.innerHTML = GAMES.map((g) => `
+<article class="game" style="--c1:${g.c1};--c2:${g.c2};--glow:${g.glow}">
+    <button class="box" data-id="${g.id}" aria-label="${g.name} ${g.sub} を あそぶ">
+        <span class="spine">${g.name}</span>
+        <span class="cover">
+            <span class="band"><span><span class="kk">KOORI-KUN </span>No.${g.no}</span><b>${g.genre}</b></span>
+            <span class="art"><svg viewBox="0 0 120 100" aria-hidden="true">${ART[g.art]()}</svg></span>
+            <span class="titlebox"><span class="series">${g.series}</span><span class="name">${g.name}<small>${g.sub}</small></span></span>
+        </span>
+    </button>
+    <p class="desc">${g.desc}</p>
+    <button class="play" data-id="${g.id}">▶ あそぶ</button>
+</article>`).join('');
+
+// クリックで きどう → その ゲームへ
+const launch = document.getElementById('launch');
+const bootText = document.getElementById('bootText');
+shelf.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-id]');
+    if (!b) return;
+    const g = GAMES.find((x) => x.id === b.dataset.id);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    b.closest('.game').querySelector('.box').classList.add('opening');
+    bootText.innerHTML = `${g.name}<small>${g.sub}　きどう中…</small>`;
+    launch.classList.add('on');
+    setTimeout(() => { location.href = g.url; }, reduce ? 100 : 1300);
+});
+// ブラウザの もどるで もどってきたとき
+addEventListener('pageshow', () => {
+    launch.classList.remove('on');
+    document.querySelectorAll('.box.opening').forEach((x) => x.classList.remove('opening'));
+});
+
+// ゆき
+const snow = document.querySelector('.snow');
+snow.innerHTML = Array.from({ length: 40 }, () => {
+    const s = 2 + Math.random() * 4;
+    return `<i style="left:${Math.random() * 100}%;width:${s}px;height:${s}px;--dx:${(Math.random() - 0.5) * 80}px;animation-duration:${8 + Math.random() * 10}s;animation-delay:${-Math.random() * 18}s"></i>`;
+}).join('');
+</script>
+</body>
+</html>
