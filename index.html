@@ -2,9 +2,17 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>こおりくんのゲーム大全</title>
 <meta name="description" content="こおりくんシリーズの ゲームを ぜんぶ ここから あそべる">
+<!-- アプリ化 (ホーム画面に 入れる。2026-11-02) -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0b1222">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ゲーム大全">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' shape-rendering='crispEdges'%3E%3Crect width='14' height='12' fill='%231b3566'/%3E%3Crect x='1' y='1' width='12' height='10' fill='%23c6f0ff'/%3E%3Crect x='4' y='4' width='1' height='2' fill='%230e1626'/%3E%3Crect x='9' y='4' width='1' height='2' fill='%230e1626'/%3E%3Crect x='6' y='7' width='2' height='1' fill='%230e1626'/%3E%3Crect x='2' y='12' width='3' height='2' fill='%231b3566'/%3E%3Crect x='9' y='12' width='3' height='2' fill='%231b3566'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,6 +139,20 @@ main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; paddin
 }
 .play:disabled { cursor: not-allowed; background: #2a3346; color: var(--sub); box-shadow: none; filter: none; }
 
+/* ---------- アプリとして 入れる ---------- */
+.install {
+    display: none; margin: 18px auto 0; padding: 10px 20px; border: 2px solid var(--ice); border-radius: 999px; cursor: pointer;
+    background: rgba(143, 220, 255, 0.12); color: var(--ink); font: inherit; font-weight: 800; font-size: 14px;
+}
+.install.on { display: inline-flex; align-items: center; gap: 8px; }
+.install:hover { background: rgba(143, 220, 255, 0.25); }
+.install svg { width: 20px; height: 20px; }
+.ioshint { display: none; max-width: 340px; margin: 12px auto 0; padding: 10px 14px; border-radius: 12px; background: var(--bg2); color: var(--sub); font-size: 13px; line-height: 1.6; }
+.ioshint.on { display: block; }
+.ioshint b { color: var(--ink); }
+body { padding-bottom: env(safe-area-inset-bottom); }
+header { padding-top: max(48px, env(safe-area-inset-top)); }
+
 footer { position: relative; z-index: 1; text-align: center; padding: 0 16px 32px; color: #5c6f8c; font-size: 12px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -191,6 +213,8 @@ footer { position: relative; z-index: 1; text-align: center; padding: 0 16px 32p
         <h1><small>KOORI-KUN GAME COLLECTION</small>こおりくんの<br>ゲーム大全</h1>
     </div>
     <p class="lead">パッケージを えらんで クリック！ ゲームが きどうするよ</p>
+    <button class="install" id="install" type="button"><svg viewBox="0 0 14 14" aria-hidden="true"><use href="#koori"/></svg>アプリとして 入れる</button>
+    <p class="ioshint" id="ioshint">iPhone・iPad は Safari の <b>共有ボタン</b> → <b>「ホーム画面に追加」</b> で アプリに なるよ</p>
 </header>
 
 <main>
@@ -333,6 +357,27 @@ addEventListener('pageshow', () => {
     launch.classList.remove('on');
     document.querySelectorAll('.box.opening').forEach((x) => x.classList.remove('opening'));
 });
+
+// アプリ化: サービスワーカーを 入れて、入れられる ときは「アプリとして 入れる」ボタンを 出す
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+const installBtn = document.getElementById('install');
+const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+let deferred = null;
+addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferred = e;
+    installBtn.classList.add('on');
+});
+installBtn.addEventListener('click', async () => {
+    if (!deferred) return;
+    deferred.prompt();
+    await deferred.userChoice.catch(() => null);
+    deferred = null;
+    installBtn.classList.remove('on');
+});
+addEventListener('appinstalled', () => installBtn.classList.remove('on'));
+// iPhone の Safari は ボタンで 入れられないので、やりかたを 出す
+if (!standalone && /iphone|ipad|ipod/i.test(navigator.userAgent)) document.getElementById('ioshint').classList.add('on');
 
 // ゆき
 const snow = document.querySelector('.snow');
