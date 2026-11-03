@@ -273,6 +273,14 @@ const GAMES = [
         desc: 'シリーズの キャラが カードに なった！ 8 チームの デッキで CPU や 友だちと オンライン対戦。パックを あけて デッキを 強く しよう。',
         url: 'https://taku3482yasu-web.github.io/koori-card/',
         c1: '#3d6fd6', c2: '#151d4a', glow: '#8fdcff', art: 'card'
+    },
+    {
+        // 2026-11-04 追加。GitHub Pages に 公開したら wip を はずす
+        id: 'gaiden', no: '07', genre: 'パチンコ', series: 'Pこおりくんの大冒険外伝',
+        name: 'おにおにの挑戦', sub: '～めざめる３人の氷達～',
+        desc: '1/319・1/399 の ST 機。おにおにRASH (転落型) と 柱の氷RASH (100回 ST・先バレ) を えらべる。設定 1〜6 つき。',
+        url: 'https://taku3482yasu-web.github.io/koori-pachinko-gaiden/',
+        c1: '#e0343e', c2: '#1a1446', glow: '#b89cff', art: 'gaiden', wip: true
     }
 ];
 
@@ -313,6 +321,13 @@ const ART = {
             <g transform="translate(${x} ${y})"><circle r="9" fill="${c}"/><rect x="-4" y="-2" width="2" height="3" fill="#0e1626"/><rect x="2" y="-2" width="2" height="3" fill="#0e1626"/><rect x="-2" y="3" width="4" height="1.5" fill="#0e1626"/></g>`).join('')}
         ${K(42, 32, 36)}
         <text x="60" y="96" text-anchor="middle" font-family="DotGothic16, monospace" font-size="9" fill="#7dffc0">♪ おともだち ♪</text>`,
+    gaiden: () => `
+        ${[[22, '#9cf0ff'], [60, '#b89cff'], [98, '#7ad8ff']].map(([x, c]) => `<path d="M${x - 9} 92 L${x - 7} 22 L${x} 8 L${x + 7} 22 L${x + 9} 92 z" fill="${c}" opacity="0.55" stroke="#eef6ff" stroke-width="1.5"/>`).join('')}
+        <g transform="rotate(-28 92 70)"><rect x="88" y="26" width="9" height="56" rx="3" fill="#3a3a4a" stroke="#ffd75e" stroke-width="1.5"/>
+        ${[0, 1, 2, 3, 4].map((i) => `<rect x="${i % 2 ? 96 : 85}" y="${30 + i * 10}" width="4" height="4" fill="#eef6ff"/>`).join('')}</g>
+        <g transform="translate(16 58)"><rect width="22" height="20" rx="3" fill="#e0343e"/><path d="M3 0 l3 -8 l3 8 z M13 0 l3 -8 l3 8 z" fill="#ffd75e"/>
+        <rect x="5" y="7" width="3" height="3" fill="#1a1446"/><rect x="14" y="7" width="3" height="3" fill="#1a1446"/><rect x="6" y="14" width="10" height="2" fill="#fff"/></g>
+        ${K(44, 54, 32)}`,
     card: () => `
         ${[['#7a4bd6', '#c9a6ff', -18, 30], ['#2f8a4a', '#a6e6a0', 18, 90], ['#151d4a', '#8fdcff', 0, 60]].map(([b, e, r, x]) => `
             <g transform="rotate(${r} ${x} 90)"><rect x="${x - 22}" y="18" width="44" height="62" rx="4" fill="${b}" stroke="${e}" stroke-width="2.5"/>
