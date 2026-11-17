@@ -289,6 +289,14 @@ const GAMES = [
         desc: '就活に 失敗した こおりくんが 借金 100 万円で コンビニ経営。発注・値段・シフト・ダンジョンで 1 年以内に ランキング 1 位を めざす。',
         url: 'https://taku3482yasu-web.github.io/koori-konbini/',
         c1: '#3d8fd6', c2: '#0f2e4a', glow: '#8fdcff', art: 'konbini'
+    },
+    {
+        // 2026-11-18 追加 (ユーザー指定)
+        id: 'medal', no: '09', genre: 'メダルゲーム', series: 'こおりくんの大冒険',
+        name: 'こおりくんの大冒険', sub: '～氷の城と大きな竜～',
+        desc: '2 段プッシャーの 大型メダルゲーム。液晶スロットで ボールを とって 氷の 塔を のぼり、JP ルーレットで こおりJP を ねらえ！ ビックボスチャレンジも あるよ。',
+        url: 'https://taku3482yasu-web.github.io/koori-medal/',
+        c1: '#2a6fc9', c2: '#0b1a3a', glow: '#ffd75e', art: 'medal'
     }
 ];
 
@@ -352,7 +360,18 @@ const ART = {
         ${[0, 1, 2].map((r) => [0, 1, 2, 3].map((i) => `<rect x="${19 + i * 8}" y="${43 + r * 9}" width="5" height="6" fill="${['#ff8a8a', '#ffd75e', '#8fd18f', '#8fb8ff'][(i + r) % 4]}"/>`).join('')).join('')}
         <rect x="76" y="40" width="28" height="54" fill="#9fd4f5"/><rect x="89" y="40" width="2" height="54" fill="#5d6f86"/>
         <text x="100" y="12" text-anchor="middle" font-size="10">🍙</text>
-        ${K(46, 60, 32)}`
+        ${K(46, 60, 32)}`,
+    medal: () => `
+        <path d="M60 6 L70 20 L70 56 L50 56 L50 20 z" fill="#bfeaff" opacity="0.8" stroke="#eef6ff" stroke-width="1.5"/>
+        <path d="M56 12 L60 4 L64 12" fill="#8fdcff" stroke="#eef6ff" stroke-width="1"/>
+        ${[24, 36, 48].map((y) => `<rect x="52" y="${y}" width="16" height="2" fill="#5aa8d6"/>`).join('')}
+        <circle cx="60" cy="16" r="3" fill="url(#ball)"/>
+        <rect x="8" y="58" width="104" height="38" rx="4" fill="#123a6a" stroke="#8fdcff" stroke-width="1.5"/>
+        <rect x="12" y="62" width="96" height="8" rx="2" fill="#5d7fa6"/>
+        ${Array.from({ length: 22 }, (_, i) => `<ellipse cx="${14 + (i % 11) * 9 + (Math.floor(i / 11) % 2) * 4}" cy="${76 + Math.floor(i / 11) * 8}" rx="4.2" ry="3" fill="#ffd75e" stroke="#b8860b" stroke-width="0.8"/>`).join('')}
+        ${[[16, 30], [100, 24], [104, 46], [14, 48]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="5" ry="5" fill="#ffd75e" stroke="#b8860b"/><text x="${x}" y="${y + 2.5}" text-anchor="middle" font-size="6" fill="#8a5a00">★</text>`).join('')}
+        <text x="60" y="54" text-anchor="middle" font-family="DotGothic16, monospace" font-size="8" fill="#ffd75e" stroke="#3a2400" stroke-width="0.4">JP</text>
+        ${K(28, 30, 26)}`
 };
 
 const shelf = document.getElementById('shelf');
