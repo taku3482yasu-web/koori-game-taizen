@@ -281,6 +281,14 @@ const GAMES = [
         desc: '1/319・1/399 の ST 機。おにおにRASH (転落型) と 柱の氷RASH (100回 ST・先バレ) を えらべる。設定 1〜6 つき。',
         url: 'https://taku3482yasu-web.github.io/koori-pachinko-gaiden/',
         c1: '#e0343e', c2: '#1a1446', glow: '#b89cff', art: 'gaiden'
+    },
+    {
+        // 2026-11-17 追加 (ユーザー指定: 公開して 大全に ならべる)
+        id: 'konbini', no: '08', genre: '経営シミュ', series: 'こおりくんシリーズ',
+        name: 'こおりくんのコンビニ（仮）', sub: '～めざせ おかおか 1～',
+        desc: '就活に 失敗した こおりくんが 借金 100 万円で コンビニ経営。発注・値段・シフト・ダンジョンで 1 年以内に ランキング 1 位を めざす。',
+        url: 'https://taku3482yasu-web.github.io/koori-konbini/',
+        c1: '#3d8fd6', c2: '#0f2e4a', glow: '#8fdcff', art: 'konbini'
     }
 ];
 
@@ -334,7 +342,17 @@ const ART = {
             <circle cx="${x - 15}" cy="25" r="4" fill="#ffd75e"/></g>`).join('')}
         ${K(47, 38, 26)}
         <rect x="44" y="68" width="32" height="7" rx="2" fill="#eef6ff"/>
-        <text x="60" y="74" text-anchor="middle" font-family="DotGothic16, monospace" font-size="6" fill="#151d4a">⚡ ドタバタ</text>`
+        <text x="60" y="74" text-anchor="middle" font-family="DotGothic16, monospace" font-size="6" fill="#151d4a">⚡ ドタバタ</text>`,
+    konbini: () => `
+        <rect x="10" y="24" width="100" height="70" fill="#f4f7fb"/>
+        <rect x="10" y="14" width="100" height="14" fill="#3d8fd6"/>
+        <rect x="10" y="28" width="100" height="4" fill="#8fdcff"/><rect x="10" y="32" width="100" height="2" fill="#ffd75e"/>
+        <text x="60" y="25" text-anchor="middle" font-family="DotGothic16, monospace" font-size="9" fill="#fff">こおりマート</text>
+        <rect x="16" y="40" width="34" height="30" fill="#bfe6ff"/>
+        ${[0, 1, 2].map((r) => [0, 1, 2, 3].map((i) => `<rect x="${19 + i * 8}" y="${43 + r * 9}" width="5" height="6" fill="${['#ff8a8a', '#ffd75e', '#8fd18f', '#8fb8ff'][(i + r) % 4]}"/>`).join('')).join('')}
+        <rect x="76" y="40" width="28" height="54" fill="#9fd4f5"/><rect x="89" y="40" width="2" height="54" fill="#5d6f86"/>
+        <text x="100" y="12" text-anchor="middle" font-size="10">🍙</text>
+        ${K(46, 60, 32)}`
 };
 
 const shelf = document.getElementById('shelf');
